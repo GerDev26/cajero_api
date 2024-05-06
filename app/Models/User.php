@@ -15,7 +15,10 @@ class User extends Authenticatable
     public function turno(){
         return $this->hasMany('App\Models\Turno');
     }
-
+    protected $attributes = [
+        'active' => true,
+        'vip' => false
+    ];
     /**
      * The attributes that are mass assignable.
      *
@@ -25,6 +28,8 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'lastname',
+        'dni',
     ];
 
     /**
@@ -46,4 +51,7 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+    public function scopeVips($query, $value){
+        return $query->where('vip', $value);
+    }
 }

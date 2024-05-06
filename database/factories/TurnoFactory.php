@@ -22,6 +22,7 @@ class TurnoFactory extends Factory
             'user_id' => User::factory(),
             'letter' => fake()->randomElement($letter),
             'number' => fake()->numberBetween(001, 100),
+            'active' => true,
             'created_at' => now(),
             'updated_at' => now()
         ];

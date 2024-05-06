@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\TurnoController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -21,8 +22,12 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::get('users', [UserController::class, 'index']);
+Route::post('register', [AuthController::class, 'register']);
+Route::post('login', [AuthController::class, 'logIn']);
+Route::get('turno', [TurnoController::class, 'getAll']);
+Route::get('turno/test', [TurnoController::class, 'test']);
 
-Route::middleware('test')->group(function(){
-    Route::get('turno', [TurnoController::class, 'index']);
-    Route::post('turno', [TurnoController::class, 'getProduct']);
+
+Route::middleware(['auth:sanctum'])->group(function(){
+    Route::post('logout', [AuthController::class, 'logOut']);
 });

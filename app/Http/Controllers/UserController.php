@@ -10,6 +10,6 @@ use App\Models\Turno;
 class UserController extends Controller
 {
     public function index(){
-        return User::all()->turno;
+        return User::all();
     }
 }
