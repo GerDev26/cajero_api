@@ -8,6 +8,15 @@ use Illuminate\Http\Request;
 class SectorController extends Controller
 {
     public function index(){
-        return Sector::with('letra')->get();
+        $sectores = Sector::with('letra')->get();
+        $sectoresMap = $sectores->map(function($sector){
+            return [
+                'sector_id' => $sector->id,
+                'letra' => $sector->letra->descripcion,
+                'letra_id' => $sector->letra->id
+            ];
+        });
+    
+        return collect($sectoresMap)->random();
     }
 }

@@ -33,19 +33,13 @@ class SectorSeeder extends Seeder
                 ],
                 [
                     'descripcion' => "informacion",
-                    'letra_id' => 3,
+                    'letra_id' => 2,
                     'created_at' => now(),
                     'updated_at' => now()
                 ],
                 [
                     'descripcion' => "inversiones",
-                    'letra_id' => 4,
-                    'created_at' => now(),
-                    'updated_at' => now()
-                ],
-                [
-                    'descripcion' => "vip",
-                    'letra_id' => 5,
+                    'letra_id' => 3,
                     'created_at' => now(),
                     'updated_at' => now()
                 ],

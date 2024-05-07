@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\LetraController;
 use App\Http\Controllers\SectorController;
 use App\Http\Controllers\TurnoController;
 use Illuminate\Http\Request;
@@ -35,6 +36,7 @@ Route::get('sectores', [SectorController::class, 'index']);
 Route::post('turnos', [TurnoController::class, 'store']);
 Route::get('turnos', [TurnoController::class, 'index']);
 
+Route::get('letras', [LetraController::class, 'index']);
 
 
 

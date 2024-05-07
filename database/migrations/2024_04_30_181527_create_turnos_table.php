@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('letra');
             $table->integer('numero');
+            $table->boolean('active');
             $table->timestamps();
             $table->unsignedBigInteger('user_id')->nullable();
             $table->unsignedBigInteger('sector_id')->nullable();

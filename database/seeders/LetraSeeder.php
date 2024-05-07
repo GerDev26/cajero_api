@@ -33,13 +33,6 @@ class LetraSeeder extends Seeder
                     'updated_at' => now()
                 ],
                 [
-                    'descripcion' => 'AT',
-                    'activo' => 1,
-                    'numero' => 0,
-                    'created_at' => now(),
-                    'updated_at' => now()
-                ],
-                [
                     'descripcion' => 'N',
                     'activo' => 1,
                     'numero' => 0,

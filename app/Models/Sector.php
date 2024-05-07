@@ -16,4 +16,14 @@ class Sector extends Model
     public function letra(){
         return $this->belongsTo('App\Models\Letra');
     }
+    public function letraDesc(){
+            // Verifica si hay una letra asociada al sector actual
+    if ($this->letra) {
+        // Si hay una letra asociada, devuelve su descripción
+        return $this->letra->descripcion;
+    } else {
+        // Si no hay letra asociada, devuelve un valor predeterminado o null
+        return null; // O un valor predeterminado, por ejemplo: 'Sin letra asociada'
+    }
+    }
 }
