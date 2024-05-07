@@ -17,14 +17,12 @@ class TurnoFactory extends Factory
      */
     public function definition(): array
     {
-        $letter = ['CAJ', 'ATE', 'INF', 'INV'];
         return [
             'user_id' => User::factory(),
-            'letter' => fake()->randomElement($letter),
-            'number' => fake()->numberBetween(001, 100),
+            'sector_id' => fake()->numberBetween(1, 5),
+            'numero' => fake()->numberBetween(001, 100),
+            'letra' => fake()->numberBetween(001, 100),
             'active' => true,
-            'created_at' => now(),
-            'updated_at' => now()
         ];
     }
 }

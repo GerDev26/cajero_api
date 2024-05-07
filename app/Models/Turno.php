@@ -16,11 +16,10 @@ class Turno extends Model
 
     protected $fillable = [
         'user_id',
-        'letter',
-        'number',
+        'sector_id',
+        'numero',
         'active',
-        'created_at',
-        'updated_at'
+        'letra',
     ];
     private $sortFilters = [
         'createdDate' => 'created_at', 
@@ -30,6 +29,9 @@ class Turno extends Model
 
     public function user(){
         return $this->belongsTo('App\Models\User');
+    }
+    public function sector(){
+        return $this->belongsTo('App\Models\Sector');
     }
 
     public function scopeActive($query){
@@ -62,11 +64,12 @@ class Turno extends Model
     }
 
     public function scopeVips($query, $value){
-        
-        $value = $value === null ? 0 : $value;
 
-        return $query->whereHas('user', function($q) use ($value){
-            $q->where('vip', $value);
-        });
+        if($value!=null){
+            return $query->whereHas('user', function($q) use ($value){
+                $q->where('vip', $value);
+            });
+        }
+
     }
 }

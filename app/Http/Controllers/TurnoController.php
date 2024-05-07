@@ -11,38 +11,20 @@ use Illuminate\Support\Facades\DB;
 
 class TurnoController extends Controller
 {
-    public function getAll(Request $request){
-        try{
-            $safeParams = ['letter', 'sortBy', 'sortByDesc', 'vip'];
-            $presentSafeParams = $request->only($safeParams);
-
-            if(in_array($presentSafeParams, $safeParams)){
-                throw new \Exception('Invalid QueryParams');
-            }
-
-            $response = Turno::select()->active();
-    
-            return $response
-                ->letter($request->letter)
-                ->sortBy($request->sortBy)
-                ->sortByDesc($request->sortByDesc)
-                ->Vips($request->vip)
-                ->get();
-
-        } catch(\Exception $e){
-            return response(['error' => $e->getMessage(), "QueryParams" => $safeParams]);
-        }
-        
-    
+    public function index(){
+        return Turno::with('sector:descripcion,id')->get();
     }
     public function store(Request $request){
+
+        Turno::create([
+            'sector_id' => $request->sector_id,
+            'user_id' => $request->user_id,
+            'letra' => $request->letra,
+            'numero' => $request->numero,
+        ]);
+
+        return response(['message' => 'registro guardado!'], 201);
     }
-    public function test(){
-        $turnosConUsuarios = DB::table('turnos')
-        ->join('users', 'turnos.user_id', '=', 'users.id')
-        ->select('turnos.letter', 'turnos.number', 'users.*')
-        ->get();
-    
-        return $turnosConUsuarios;
-    }
+
+
 }
