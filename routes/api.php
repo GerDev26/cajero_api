@@ -30,6 +30,7 @@ Route::middleware(['auth:sanctum'])->group(function(){
 });
 
 Route::get('usuarios', [UserController::class, 'index']);
+Route::get('user/id', [UserController::class, 'getUserIdFromToken']);
 
 Route::get('sectores', [SectorController::class, 'index']);
 

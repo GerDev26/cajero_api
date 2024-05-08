@@ -12,6 +12,7 @@ class Turno extends Model
 
     protected $hidden = [
         'user_id',
+        'sector_id'
     ];
 
     protected $fillable = [
@@ -20,11 +21,6 @@ class Turno extends Model
         'numero',
         'active',
         'letra',
-    ];
-    private $sortFilters = [
-        'createdDate' => 'created_at', 
-        'updatedDate' => 'updated_at', 
-        'letter' => 'letter'
     ];
 
     public function user(){
@@ -40,12 +36,27 @@ class Turno extends Model
     public function scopeInactive($query){
         return $query->where('active', "0")->with('user');
     }
+    public function scopeVips($query, $use){
 
+        if($use!=null){
+            $value = $use ? '1' : '0';
+            return $query->whereHas('user', function($q) use ($value){
+                $q->where('vip', $value);
+            });
+        }
+    }
     public function scopeLetter($query, $letter){
         if($letter){
             return $query->where('letter', 'like', "%$letter%");
         }
     }
+
+    private $sortFilters = [
+        'createdDate' => 'created_at', 
+        'updatedDate' => 'updated_at', 
+        'letra' => 'letra',
+        'id' => 'id'
+    ];
     public function scopeSortBy($query, $filter){
 
         foreach ($this->sortFilters as $key => $value) {
@@ -63,13 +74,4 @@ class Turno extends Model
         }
     }
 
-    public function scopeVips($query, $value){
-
-        if($value!=null){
-            return $query->whereHas('user', function($q) use ($value){
-                $q->where('vip', $value);
-            });
-        }
-
-    }
 }

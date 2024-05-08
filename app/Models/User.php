@@ -51,7 +51,5 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
-    public function scopeVips($query, $value){
-        return $query->where('vip', $value);
-    }
+
 }
