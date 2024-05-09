@@ -12,10 +12,6 @@ class Sector extends Model
 
     public $timestamps = true;
 
-    protected $hidden = [
-        'letra_id'
-    ];
-
     public function turno(){
         return $this->hasMany('App\Models\Turno');
     }

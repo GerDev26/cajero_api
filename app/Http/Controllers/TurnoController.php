@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreTurnosRequest;
 use App\Models\Letra;
 use App\Models\Turno;
 use App\Rules\sortAppointments;
@@ -17,7 +18,7 @@ class TurnoController extends Controller
 {
     public function index(Request $request) {
         try {
-            $query = Turno::with('sector:id,descripcion', 'user:id,name,lastname,dni,vip');
+            $query = Turno::with('user:id,name,lastname,dni,vip')->select('id', 'letra', 'numero', 'sector_id', 'user_id');
     
             if ($request->has('vip')) {
 
@@ -66,31 +67,17 @@ class TurnoController extends Controller
             return response()->json(['error' => $e->getMessage()], $e->getCode());
         }
     }
-    public function store(Request $request) {
-        try{
-            
+    public function store(StoreTurnosRequest $request) {
+
             $user = Auth::guard('sanctum')->user();
-    
-            $validationRules = [
-                'sector_id' => 'required|exists:sectores,id',
-                'letra_id' => 'required|exists:letras,id'
-            ];
-    
-            $validator = Validator::make($request->all(), $validationRules);
-    
-            if($validator->fails()){
-                throw new ValidationException($validator);
-            }
-    
-            
-            
+
             if($user->vip == 1){
                 $letra = Letra::find(4);
             }else{
                 $letra = Letra::find($request['letra_id']);
             }
     
-            $letra->numero = $letra->numero + 1;
+            $letra->numero++;
             $letra->save();
         
             Turno::create([
@@ -101,10 +88,6 @@ class TurnoController extends Controller
             ]);
         
             return response(['message' => 'registro guardado!'], 201);
-
-        }catch(ValidationException $e){
-            return response()->json(['error' => $e->validator->errors()], 422);
-        }
     }
     
 

@@ -11,17 +11,7 @@ use Illuminate\Support\Facades\Auth;
 class UserController extends Controller
 {
     public function index(){
-        $users = User::all();
-        $usersMap = $users->map(function($user){
-            return 
-            [
-                'user_id' => $user->id,
-                'vip' => $user->vip
-            ];
-        });
-        $randomUser = collect($usersMap)->random();
-        $esVip = $randomUser['vip'] == 1 ? "es Vip" : "es pobre";
-        return $esVip;
+        return User::all();
     }
     public function getUserIdFromToken()
     {

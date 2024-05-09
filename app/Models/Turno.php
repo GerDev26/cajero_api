@@ -12,7 +12,6 @@ class Turno extends Model
 
     protected $hidden = [
         'user_id',
-        'sector_id'
     ];
 
     protected $attributes = [
