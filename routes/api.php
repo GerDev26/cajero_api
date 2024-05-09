@@ -26,16 +26,18 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::post('register', [AuthController::class, 'register']);
 Route::post('login', [AuthController::class, 'logIn']);
 Route::middleware(['auth:sanctum'])->group(function(){
+    Route::post('turnos', [TurnoController::class, 'store']);
     Route::post('logout', [AuthController::class, 'logOut']);
 });
 
 Route::get('usuarios', [UserController::class, 'index']);
+
 Route::get('user/id', [UserController::class, 'getUserIdFromToken']);
 
 Route::get('sectores', [SectorController::class, 'index']);
 
-Route::post('turnos', [TurnoController::class, 'store']);
 Route::get('turnos', [TurnoController::class, 'index']);
+
 
 Route::get('letras', [LetraController::class, 'index']);
 

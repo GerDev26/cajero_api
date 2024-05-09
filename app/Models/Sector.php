@@ -10,6 +10,12 @@ class Sector extends Model
     use HasFactory;
     protected $table = 'sectores';
 
+    public $timestamps = true;
+
+    protected $hidden = [
+        'letra_id'
+    ];
+
     public function turno(){
         return $this->hasMany('App\Models\Turno');
     }

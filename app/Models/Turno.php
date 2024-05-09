@@ -15,12 +15,18 @@ class Turno extends Model
         'sector_id'
     ];
 
+    protected $attributes = [
+        'active' => true,
+    ];
+    public $timestamps = true;
+
     protected $fillable = [
         'user_id',
         'sector_id',
+        'letra_id',
         'numero',
-        'active',
         'letra',
+        'active'
     ];
 
     public function user(){

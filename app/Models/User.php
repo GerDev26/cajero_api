@@ -15,6 +15,7 @@ class User extends Authenticatable
     public function turno(){
         return $this->hasMany('App\Models\Turno');
     }
+    public $timestamps = true;
     protected $attributes = [
         'active' => true,
         'vip' => false

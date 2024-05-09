@@ -3,29 +3,28 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Letra;
 use App\Models\Turno;
 use App\Rules\sortAppointments;
 use Exception;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
 
 class TurnoController extends Controller
 {
-    public function index(Request $request)
-    {
+    public function index(Request $request) {
         try {
             $query = Turno::with('sector:id,descripcion', 'user:id,name,lastname,dni,vip');
     
             if ($request->has('vip')) {
 
-                $validationRules =
-                [
+                $validationRules = [
                     'vip' => 'boolean'
                 ];
-                $errorMessage = 
-                [
+                $errorMessage = [
                     'vip.boolean' => 'vip debe contener 1 o 0'
                 ];
                 $validator = Validator::make($request->all(), $validationRules, $errorMessage);
@@ -42,8 +41,7 @@ class TurnoController extends Controller
                     throw new Exception('No puedes usar sortby y sortByDesc al mismo tiempo', 422);
                 }
 
-                $validationRules = 
-                [
+                $validationRules = [
                     'sortBy' => new sortAppointments,
                     'sortByDesc' => new sortAppointments
                 ];
@@ -68,20 +66,47 @@ class TurnoController extends Controller
             return response()->json(['error' => $e->getMessage()], $e->getCode());
         }
     }
+    public function store(Request $request) {
+        try{
+            
+            $user = Auth::guard('sanctum')->user();
     
-    public function store(Request $request){
+            $validationRules = [
+                'sector_id' => 'required|exists:sectores,id',
+                'letra_id' => 'required|exists:letras,id'
+            ];
+    
+            $validator = Validator::make($request->all(), $validationRules);
+    
+            if($validator->fails()){
+                throw new ValidationException($validator);
+            }
+    
+            
+            
+            if($user->vip == 1){
+                $letra = Letra::find(4);
+            }else{
+                $letra = Letra::find($request['letra_id']);
+            }
+    
+            $letra->numero = $letra->numero + 1;
+            $letra->save();
+        
+            Turno::create([
+                'sector_id' => $request->sector_id,
+                'user_id' => $user->id,
+                'letra' => $letra->descripcion,
+                'numero' => $letra->numero,
+            ]);
+        
+            return response(['message' => 'registro guardado!'], 201);
 
-        $request = $request->only('user_id', 'sector_id', 'letra', 'numero');
-
-        Turno::create([
-            'sector_id' => $request['sector_id'],
-            'user_id' => $request['user_id'],
-            'letra' => $request['letra'],
-            'numero' => $request['numero'],
-        ]);
-
-        return response(['message' => 'registro guardado!'], 201);
+        }catch(ValidationException $e){
+            return response()->json(['error' => $e->validator->errors()], 422);
+        }
     }
+    
 
 
 }
