@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -12,12 +13,23 @@ class Sector extends Model
 
     public $timestamps = true;
 
+    protected function descripcion() : Attribute
+    {
+        return new Attribute(
+            get: function($value){
+                $value[0] = strtoupper($value[0]);
+                return $value;
+            }
+        );
+    }
+
     public function turno(){
         return $this->hasMany('App\Models\Turno');
     }
     public function letra(){
         return $this->belongsTo('App\Models\Letra');
     }
+
     public function letraDesc(){
             // Verifica si hay una letra asociada al sector actual
     if ($this->letra) {

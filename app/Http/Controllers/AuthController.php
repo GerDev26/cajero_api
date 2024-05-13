@@ -39,6 +39,7 @@ class AuthController extends Controller
     }
 
     public function logIn(Request $request){
+        
         $isValid = Validator::make($request->all(), [
             'dni' => 'required|string|min:8|max:8',
         ]);
@@ -60,9 +61,9 @@ class AuthController extends Controller
 
         return response([
             'message' => '¡Iniciaste sesion!',
-            'token' => $token,
+            'access_token' => $token,
             'token_type' => 'Bearer',
-            'user' => $user,
+            'data' => $user,
         ], 200);
     }
     public function logout(Request $request) {

@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Models;
-
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -27,6 +27,20 @@ class Turno extends Model
         'letra',
         'active'
     ];
+
+    protected function numero() : Attribute
+    {
+        return new Attribute(
+            get: function($value){
+                $modValue = match (strlen($value)) {
+                1     => '00' . $value,
+                2     => '0' . $value,
+                default => $value
+                };
+                return $modValue;
+            }
+        );
+    }
 
     public function user(){
         return $this->belongsTo('App\Models\User');
